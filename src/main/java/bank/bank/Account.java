@@ -6,7 +6,7 @@ public class Account {
   private String type;
   private double balance;
 
-  public Account(int id, String type, String balance){
+  public Account(int id, String type, Double balance){
 
     setId(id);
     setType(type);
