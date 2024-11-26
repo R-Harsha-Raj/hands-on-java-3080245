@@ -4,8 +4,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import bank.bank.Account;
-import bank.bank.Customer;
 
 public class DataSource {
 
@@ -69,14 +67,22 @@ public class DataSource {
     return customer;
   }
 
-  public static void main(String[] args) {
-    Customer customer = getCustomer("zlewsy9x@webeden.co.uk");
-    System.out.println("Username: " + customer.getUsername());
-    System.out.println("Password: " + customer.getPassword());
-    System.out.println("Account Id: " + customer.getAccount_id());
+  public static void updateAccountBalance(int accountId, double balance){
 
-    Account account = getAccount(67231);
-    System.out.println("Account Type: " + account.getType());
-    System.out.println("Account Balance: " + account.getBalance());
+    String sql = "update accounts set balance = ? where id = ?";
+
+    try(
+      Connection connection = connect();
+      PreparedStatement statement = connection.prepareStatement(sql);
+    ){
+      statement.setDouble(1,balance);
+      statement.setInt(2,accountId);
+
+      statement.executeUpdate();
+
+    }catch(SQLException e){
+      e.printStackTrace();
+    }
+
   }
 }
